@@ -1,0 +1,159 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url = env("POSTGRES_PRISMA_URL") // uses connection pooling
+  directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
+}
+
+// Authentication and User Management
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model User {
+  id               String    @id @default(cuid())
+  name             String?
+  email            String?   @unique
+  emailVerified    DateTime?
+  image            String?
+  password         String?   // Optional for OAuth users
+  accounts         Account[]
+  sessions         Session[]
+  agents           Agent[]
+  apiKeys          ApiKey[]
+  role             UserRole  @default(USER)
+  lastSignIn       DateTime? // Track last successful sign in
+  failedAttempts   Int       @default(0) // Number of failed login attempts
+  lastFailedAttempt DateTime? // Timestamp of last failed attempt
+  lockedUntil      DateTime? // Timestamp until account is locked
+  profileCompleted Boolean   @default(false) // Track profile completion status
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+}
+
+enum UserRole {
+  USER
+  ADMIN
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+// API Keys
+model ApiKey {
+  id        String    @id @default(cuid())
+  key       String    @unique
+  name      String
+  userId    String
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime  @default(now())
+  lastUsed  DateTime?
+  expiresAt DateTime?
+}
+
+// Agents and Plugins
+model Agent {
+  id          String       @id @default(cuid())
+  name        String
+  description String?      @db.Text
+  userId      String
+  user        User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  plugins     Plugin[]
+  settings    Json?
+  status      AgentStatus  @default(INACTIVE)
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+}
+
+enum AgentStatus {
+  ACTIVE
+  INACTIVE
+  PAUSED
+}
+
+model Plugin {
+  id          String   @id @default(cuid())
+  name        String
+  description String?  @db.Text
+  version     String
+  config      Json?
+  agents      Agent[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+// Blog System
+model BlogPost {
+  id        String   @id @default(cuid())
+  title     String
+  slug      String   @unique
+  content   String   @db.Text
+  published Boolean  @default(false)
+  tags      Tag[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Tag {
+  id        String     @id @default(cuid())
+  name      String     @unique
+  posts     BlogPost[]
+  createdAt DateTime   @default(now())
+}
+
+// Contact System
+model ContactSubmission {
+  id            String           @id @default(cuid())
+  category      String
+  name          String
+  email         String
+  message       String           @db.Text
+  attachmentUrl String?
+  status        SubmissionStatus @default(PENDING)
+  createdAt     DateTime         @default(now())
+  updatedAt     DateTime         @updatedAt
+}
+
+enum SubmissionStatus {
+  PENDING
+  IN_PROGRESS
+  COMPLETED
+  ARCHIVED
+}

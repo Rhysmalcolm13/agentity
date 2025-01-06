@@ -1,0 +1,50 @@
+{
+  "getting-started.jpg": {
+    "description": "A clean, modern workspace with a laptop showing code and AI visualization",
+    "source": "Unsplash",
+    "photographer": "Christopher Gower",
+    "license": "Unsplash License"
+  },
+  "launch-announcement.jpg": {
+    "description": "Abstract technology visualization with connected nodes representing AI network",
+    "source": "Unsplash",
+    "photographer": "Aideal Hwa",
+    "license": "Unsplash License"
+  },
+  "case-study-1.jpg": {
+    "description": "Modern customer service workspace with multiple screens showing analytics",
+    "source": "Unsplash",
+    "photographer": "Austin Distel",
+    "license": "Unsplash License"
+  },
+  "advanced-config.jpg": {
+    "description": "Close-up of code editor showing advanced configuration settings",
+    "source": "Unsplash",
+    "photographer": "Fotis Fotopoulos",
+    "license": "Unsplash License"
+  },
+  "future-work.jpg": {
+    "description": "Futuristic office space with holographic displays and AI visualizations",
+    "source": "Unsplash",
+    "photographer": "ThisisEngineering RAEng",
+    "license": "Unsplash License"
+  },
+  "api-integration.jpg": {
+    "description": "Multiple connected devices showing API documentation and code",
+    "source": "Unsplash",
+    "photographer": "Clément Hélardot",
+    "license": "Unsplash License"
+  },
+  "case-study-2.jpg": {
+    "description": "Retail analytics dashboard showing AI-powered recommendations",
+    "source": "Unsplash",
+    "photographer": "Stephen Dawson",
+    "license": "Unsplash License"
+  },
+  "security.jpg": {
+    "description": "Cybersecurity visualization with lock and digital protection concepts",
+    "source": "Unsplash",
+    "photographer": "Franck",
+    "license": "Unsplash License"
+  }
+} 

@@ -1,0 +1,30 @@
+# Code Standards/Spec Rules
+
+Type Safety: All code must use type safety by defining types and type annotations everywhere.
+
+Explicit Validation: All inputs to functions must be validated against the type they specify, using Zod or a similar runtime schema validator.
+
+Documentation: All code must be thoroughly documented using comments for clarity.
+
+No Side Effects: All functions should avoid changing state unless it is completely required.
+
+Small Modules: Code should be broken down into small reusable functions.
+
+API Stability: All APIs should be stable across major versions, so ensure backward compatibility.
+
+Error Messages: All Errors should include a description, error code, and associated data.
+
+Security: All methods that deal with sensitive data or security should be reviewed by multiple developers.
+
+Versioning: The version of all schemas and objects should be maintained, and it must be clear how schemas have changed over time.
+
+Type Guards: Type guards should be used to validate the type of objects.
+
+Code Organization:
+
+- All types should be defined in the `src/lib/types` directory with descriptive names (e.g., `email.ts`, `blog.ts`)
+- Type files should be focused and contain only related types
+- Import types using the `@/lib/types/[name]` path
+- Keep related functionality together in feature-specific directories
+- Use barrel exports (index.ts) for cleaner imports ONLY when a directory exports multiple items
+- Maintain a flat structure where possible to avoid deep nesting
