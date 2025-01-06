@@ -42,9 +42,6 @@
     "**/.hg": true,
     "**/CVS": true,
     "**/.DS_Store": true,
-    "**/node_modules": true,
-    "**/.next": true,
-    "**/dist": true
   },
   "search.exclude": {
     "**/node_modules": true,
